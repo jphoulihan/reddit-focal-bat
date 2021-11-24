@@ -17,7 +17,7 @@ _to promote Irish by giving the language more exposure on a forum for ireland, c
 * insert first instance of Noun or Verb or Adjective etc. into teanglann foclóir (dictionary) search (get request)
 * if return contains a dictionary entry continue
   * else repeat POS tagging to get next Noun or Verb etc. until the dictionary yields a result
-* Use web scraping to get the dictionaries result content
+* Use web scraping to get the dictionary result content
 * construct the focal bat response with this data
   * response composed of:
     * translation
