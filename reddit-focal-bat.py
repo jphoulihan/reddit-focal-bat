@@ -35,13 +35,13 @@ def main():
     parent.replies.replace_more()
     child_comments = parent.replies.list() # all top comment replies converted to list
 
-    #wrapping algorithm in a loop which checks if the bot has already replied, if bot username is found in child comments, break else reply
+    #wrapping algorithm in a loop which checks if the bot has already replied, if bot username is found in child comments break, else reply
     for reply in child_comments:
-        if reply.author == 'focal_bat':
-            print('focal_bat response FOUND in',len(child_comments),'replies, program exited')
+        if reply.author == 'focal-bat':
+            print('focal-bat response FOUND in',len(child_comments),'replies, program exited')
             break
     else:
-        print('\nfocal_bat response NOT FOUND in',len(child_comments),'replies, continuing program...\n')
+        print('\nfocal-bat response NOT FOUND in',len(child_comments),'replies, continuing program...\n')
         top_comment_author = 'u/'+str(sub_obj[0].comments[0].author)
         top_comment_body = nlp(f'{sub_obj[0].comments[0].body}') # top comment body processed by spacy nlp
         # test_string_body = nlp('there was a teleporting thingamajig in the ufo, I shudda chucked it in the fryer, yesterday')
