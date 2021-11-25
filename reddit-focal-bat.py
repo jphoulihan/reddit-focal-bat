@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 ID = os.getenv('CLIENT_ID')
 SECRET = os.getenv('CLIENT_SECRET')
-USERNAME = os.getenv('USERNAME')
+PASSWORD = os.getenv('PASSWORD')
 
 nlp = spacy.load('en_core_web_sm')
 
@@ -21,7 +21,7 @@ def main():
         client_id= ID,
         client_secret= SECRET,
         username= "focal-bat",
-        password= USERNAME
+        password= PASSWORD
     )
 
     sub_obj = [] # stores the top thread of the day submission object
