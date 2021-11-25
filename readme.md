@@ -5,7 +5,7 @@ _focal-bat is a personalized word of the day comment bot_<br/><br/>
 _this comment bot responds to users and translates a word they used in their comment from English to Irish_
 
 ## Project Goal
-_to promote Irish by giving the language more exposure on a forum for ireland, comprised of 448k members_<br/><br/>
+_to promote Irish by giving the language more exposure on a forum for Ireland, comprised of 448k members_<br/><br/>
 
 ### **Requirements**
 ---
@@ -17,6 +17,7 @@ _to promote Irish by giving the language more exposure on a forum for ireland, c
 * insert first instance of Noun or Verb or Adjective etc. into teanglann foclóir (dictionary) search (get request)
 * if return contains a dictionary entry continue
   * else repeat POS tagging to get next Noun or Verb etc. until the dictionary yields a result
+* if the word pos is VERB search in Irish to English dictionary to ensure the infinitive is returned
 * Use web scraping to get the dictionary result content
 * construct the focal bat response with this data
   * response composed of:
