@@ -38,11 +38,9 @@ def main():
             break
     else:
         print('\nfocal-bat reply NOT FOUND in',len(child_comments),'replies, continuing program...\n')
+
         top_comment_author = f'u/{submission_obj[0].comments[0].author}'
-        top_comment_body = nlp(f'{submission_obj[0].comments[0].body}') # top comment body processed by spacy nlp
-
-        print(type(top_comment_body))
-
+        top_comment_body = nlp(f'{submission_obj[0].comments[0].body}')
         word_pos = {token.lemma_ : f'{token.pos_}' for token in top_comment_body } # populating a dictionary with key (lemmatization) value (part of speech) pairs 
         
         print('Top comment from top post of the day, after part of speech word processing: \n')
@@ -52,9 +50,7 @@ def main():
         pos_list = ['NOUN', 'VERB', 'PROPN', 'ADJ', 'ADV', 'CCONJ']
         random.shuffle(pos_list) #increase possibility of different results
         
-
         word, formatted_translated_word, examples_scrape = dict_search(word_pos, pos_list, check_verb) #makes sure the word gets valid dictionary result with examples, returns the word, html page copy and examples 
-
         searched_word = f'''"{word}"'''
 
         print('Formatted translation: ',formatted_translated_word)
