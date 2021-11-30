@@ -1,4 +1,5 @@
 import os
+import sys
 import praw
 import spacy
 import random
@@ -23,8 +24,11 @@ def main():
         password= PASSWORD
     )
 
-    subreddit = reddit.subreddit("botwatch").top("all", limit=1) #retrieves the top submission as limit is 1
+    subreddit = reddit.subreddit("ireland").top("all", limit=1) #retrieves the top submission as limit is 1
     submission_obj = [reddit.submission(id=f'{sub}') for sub in subreddit] # stores the top thread of the day submission object
+
+    if len(submission_obj[0].comments) == 0:
+        sys.exit('Thread contains 0 comments, exiting program')
     
     parent = reddit.comment(f'{submission_obj[0].comments[0]}')
     parent.refresh()
@@ -41,22 +45,16 @@ def main():
 
         top_comment_author = f'u/{submission_obj[0].comments[0].author}'
         top_comment_body = nlp(f'{submission_obj[0].comments[0].body}')
-        word_pos = {token.lemma_ : f'{token.pos_}' for token in top_comment_body } # populating a dictionary with key (lemmatization) value (part of speech) pairs 
-        
-        print('Top comment from top post of the day, after part of speech word processing: \n')
-        print(word_pos)
-        print('\n')
-
+        word_pos_dict = {token.lemma_ : f'{token.pos_}' for token in top_comment_body } # populating a dictionary with key (lemmatization) value (part of speech) pairs 
         pos_list = ['NOUN', 'VERB', 'PROPN', 'ADJ', 'ADV', 'CCONJ']
-        random.shuffle(pos_list) #increase possibility of different results
         
-        word, formatted_translated_word, examples_scrape = dict_search(word_pos, pos_list, check_verb) #makes sure the word gets valid dictionary result with examples, returns the word, html page copy and examples 
-        searched_word = f'''"{word}"'''
+        confirm_comment_has_pos = [True for pos in pos_list if pos in word_pos_dict.values()]
+        if confirm_comment_has_pos.count(True) < 2: sys.exit('Not enough parts of speech in comment for dictionary search, exiting program')
+        
+        random.shuffle(pos_list) #increase possibility of different results
 
-        print('Formatted translation: ',formatted_translated_word)
-        print('\n')
-        print(f'BÉARLA {word}, GAEILGE {formatted_translated_word}\n')
-
+        word, formatted_translated_word, examples_scrape = dict_search(word_pos_dict, pos_list, check_verb) #makes sure the word gets valid dictionary result with examples, returns the word, html page copy and examples 
+        
         raw_example_list = [ex.text for ex in examples_scrape] 
         formatted_example_list = []
         for example_str in raw_example_list:
@@ -64,12 +62,9 @@ def main():
                 if ord(symbol) == 187: #phrases begin after right double angle quotes, filter by the ascii value for formatting
                     formatted_example_list.append(example_str[slice(example_str.index(symbol)+1, len(example_str))].strip()) #substring of raw example added to formatted list 
 
-        print('Sentence example list for reply :\n')
-        print(formatted_example_list)
-        print('\n')
-
         random_example_sentence = formatted_example_list[random.randrange(len(formatted_example_list))] 
             
+        searched_word = f'''"{word}"'''
         reply = f'{top_comment_author}, seo duit an focal {searched_word} as gaeilge: {formatted_translated_word}'
         example = f'Sampla gaolmhara (Related example): {random_example_sentence}'
         search_further = f'https://www.teanglann.ie/en/eid/{word}'
@@ -97,16 +92,18 @@ def dict_search(word_dict, pos_list, check_verb):
                 if len(word) <= 2 or soup.find('div', attrs={'class': 'nojoy'}) or len(examples_scrape) == 0:
                     word_search_fail.append(word)
                     continue
+                translation_scrape = soup.find('span', attrs={'class': 'eid trg clickable'})
+                translated_word_list = translation_scrape.text.split()
+                translated_word = translated_word_list[0].replace(',', '') #to get the word alone and not its gender i.e. m/f
+                if word.lower() == translated_word.lower(): #handle the ocassion that english and irish are same word
+                    word_search_fail.append(word)
+                    continue
                 break
-    
-    translation_scrape = soup.find('span', attrs={'class': 'eid trg clickable'})
-    translated_word= str(translation_scrape.text).split()
-    formatted_translated_word = ' '.join([('' if char in set("mf") else ' ')+char for char in translated_word]).strip() #NEEDS FIXING
 
     if word_dict.get(word) == 'VERB': 
-        formatted_translated_word = check_verb(word, formatted_translated_word)
+        translated_word = check_verb(word, translated_word)
     
-    return word, formatted_translated_word, examples_scrape
+    return word, translated_word, examples_scrape
 
 
 #caveat in dictionary search result, for verbs the first person present conjunction is often returned and not the infinitive, this function should ensure infinitive is returned 
@@ -117,15 +114,15 @@ def check_verb(verb, formatted_translated_word):
 
     check_translation_scrape = check_soup.find_all('span', attrs={'class': 'head'})
 
-    check_translation_list = [ex.text for ex in check_translation_scrape] 
+    check_translation_list = [trans.text for trans in check_translation_scrape] 
     irish_eng_list = []
     for s in check_translation_list:
         for symbol in s:
-            if ord(symbol) == 187: #phrases begin after right double angle quotes, filter by the ascii value for formatting
+            if ord(symbol) == 187: #irish translated result comes before this symbol, use as end marker for substring
                 irish_eng_list.append(s[slice(0, s.index(symbol)-1)].strip()) #substring of raw example added to formatted list 
 
     for verb_infinitive in irish_eng_list:
-            if verb_infinitive.lower() in formatted_translated_word.lower():
+            if verb_infinitive.lower() in formatted_translated_word.lower(): #eliminates the conjugated suffix
                 return verb_infinitive
     
 
