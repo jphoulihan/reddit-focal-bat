@@ -24,7 +24,7 @@ def main():
         password= PASSWORD
     )
 
-    subreddit = reddit.subreddit("ireland").top("all", limit=1) #retrieves the top submission as limit is 1
+    subreddit = reddit.subreddit("botwatch").top("year", limit=1) #retrieves the top submission as limit is 1
     submission_obj = [reddit.submission(id=f'{sub}') for sub in subreddit] # stores the top thread of the day submission object
 
     if len(submission_obj[0].comments) == 0:
@@ -94,7 +94,10 @@ def dict_search(word_dict, pos_list, check_verb):
                     continue
                 translation_scrape = soup.find('span', attrs={'class': 'eid trg clickable'})
                 translated_word_list = translation_scrape.text.split()
-                translated_word = translated_word_list[0].replace(',', '') #to get the word alone and not its gender i.e. m/f
+                stopwords = ['m', 'f']
+                nogender_translated_word_list = [w for w in translated_word_list if w not in stopwords]
+                translated_word = " ".join(nogender_translated_word_list)
+                
                 if word.lower() == translated_word.lower(): #handle the ocassion that english and irish are same word
                     word_search_fail.append(word)
                     continue
@@ -124,6 +127,8 @@ def check_verb(verb, formatted_translated_word):
     for verb_infinitive in irish_eng_list:
             if verb_infinitive.lower() in formatted_translated_word.lower(): #eliminates the conjugated suffix
                 return verb_infinitive
+            else:
+                return formatted_translated_word    
     
 
 if __name__ == "__main__":
