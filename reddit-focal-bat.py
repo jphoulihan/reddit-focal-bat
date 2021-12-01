@@ -26,9 +26,11 @@ def main():
 
     subreddit = reddit.subreddit("botwatch").top("year", limit=1) #retrieves the top submission as limit is 1
     submission_obj = [reddit.submission(id=f'{sub}') for sub in subreddit] # stores the top thread of the day submission object
-
-    if len(submission_obj[0].comments) == 0:
-        sys.exit('Thread contains 0 comments, exiting program')
+    
+    if  len(submission_obj) == 0:
+        sys.exit('No Thread found, exiting program')
+    elif len(submission_obj[0].comments) == 0:
+         sys.exit('Thread contains 0 comments, exiting program')
     
     parent = reddit.comment(f'{submission_obj[0].comments[0]}')
     parent.refresh()
@@ -62,7 +64,9 @@ def main():
                 if ord(symbol) == 187: #phrases begin after right double angle quotes, filter by the ascii value for formatting
                     formatted_example_list.append(example_str[slice(example_str.index(symbol)+1, len(example_str))].strip()) #substring of raw example added to formatted list 
 
-        random_example_sentence = formatted_example_list[random.randrange(len(formatted_example_list))] 
+        print(formatted_example_list)
+
+        random_example_sentence = formatted_example_list[random.randrange(len(formatted_example_list))]
             
         searched_word = f'''"{word}"'''
         reply = f'{top_comment_author}, seo duit an focal {searched_word} as gaeilge: {formatted_translated_word}'

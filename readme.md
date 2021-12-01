@@ -16,9 +16,11 @@ _to promote Irish by giving the language more exposure on a forum for Ireland, c
 * Use natural language processing to get POS (part of speech) on the comment content
 * insert first instance of Noun or Verb or Adjective etc. into teanglann foclóir (dictionary) search (get request)
 * if return contains a dictionary entry continue
-  * else repeat POS tagging to get next Noun or Verb etc. until the dictionary yields a result
-* if the word pos is VERB search in Irish to English dictionary to ensure the infinitive is returned
-* Use web scraping to get the dictionary result content
+  * else repeat POS tagging to get next POS until the dictionary yields a result
+* Use web scraping to get the dictionary result content and example phrases
+  * if result content and search word are the same, move to next POS 
+* if the word's POS is VERB search in Irish to English dictionary to ensure the infinitive is returned
+  * if this fails return the English to Irish result
 * construct the focal bat response with this data
   * response composed of:
     * translation
@@ -29,7 +31,7 @@ _to promote Irish by giving the language more exposure on a forum for Ireland, c
 
 ### **Tech Used**
 * Python
-  * Libraries
+  * Packages
     * PRAW
     * spacy
     * BeautifulSoup4
