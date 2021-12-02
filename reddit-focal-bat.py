@@ -24,7 +24,7 @@ def main():
         password= PASSWORD
     )
 
-    subreddit = reddit.subreddit("botwatch").top("year", limit=1) #retrieves the top submission as limit is 1
+    subreddit = reddit.subreddit("botwatch").top("all", limit=1) #retrieves the top submission as limit is 1
     submission_obj = [reddit.submission(id=f'{sub}') for sub in subreddit] # stores the top thread of the day submission object
     
     if  len(submission_obj) == 0:
@@ -77,9 +77,9 @@ def main():
         print(f'{reply}\n{example}\nLike to learn more? Go on, go on, go on...{search_further}')
         lb='\n\n'
 
-        #reply for reddit
+        #reply to top comment
         focal_bat_reply = f'{reply}{lb}{example}{lb}Like to learn more? Go on, go on, go on... {search_further}'
-        #parent.reply(focal_bat_reply)
+        # parent.reply(focal_bat_reply)
 
 
 #checks if word is in part of speech list and ensures word returns an accurate translation and example phrases from online dictionary
@@ -100,7 +100,7 @@ def dict_search(word_dict, pos_list, check_verb):
                 translated_word_list = translation_scrape.text.split()
                 stopwords = ['m', 'f']
                 nogender_translated_word_list = [w for w in translated_word_list if w not in stopwords]
-                translated_word = " ".join(nogender_translated_word_list)
+                translated_word = " ".join(nogender_translated_word_list) #handles word returned with synonyms
                 
                 if word.lower() == translated_word.lower(): #handle the ocassion that english and irish are same word
                     word_search_fail.append(word)
@@ -108,13 +108,17 @@ def dict_search(word_dict, pos_list, check_verb):
                 break
 
     if word_dict.get(word) == 'VERB': 
+        print(word)
         translated_word = check_verb(word, translated_word)
+        print(translated_word)
     
     return word, translated_word, examples_scrape
 
 
 #caveat in dictionary search result, for verbs the first person present conjunction is often returned and not the infinitive, this function should ensure infinitive is returned 
 def check_verb(verb, formatted_translated_word):
+
+    print(verb)
 
     page_irish_eng = requests.get(f'https://www.teanglann.ie/en/fgb/{verb}')
     check_soup = BeautifulSoup(page_irish_eng.content, 'html5lib')
@@ -128,11 +132,14 @@ def check_verb(verb, formatted_translated_word):
             if ord(symbol) == 187: #irish translated result comes before this symbol, use as end marker for substring
                 irish_eng_list.append(s[slice(0, s.index(symbol)-1)].strip()) #substring of raw example added to formatted list 
 
+    print(irish_eng_list)
+
     for verb_infinitive in irish_eng_list:
             if verb_infinitive.lower() in formatted_translated_word.lower(): #eliminates the conjugated suffix
+                print('HERES YOUR VERB',verb_infinitive)
                 return verb_infinitive
-            else:
-                return formatted_translated_word    
+            
+    return formatted_translated_word    
     
 
 if __name__ == "__main__":
