@@ -73,7 +73,7 @@ On the reddit app the client_id can be found under personal use script
 * Format text response 
 * Script automation<br/><br/>
 
-## Future Developments
+## Future Development
 
 ### Create A Year Retrospective
 * Stream all replies from focal-bat at year's end
