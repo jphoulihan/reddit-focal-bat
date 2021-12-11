@@ -61,7 +61,7 @@ On the reddit app the client_id can be found under personal use script
 
 ## Learning Outcomes
 * Consume data with API wrapper
-* Autofill and run http request
+* Autofill and run HTTP request
 * NLP tokenization and lammetization
 * Web scraping
 * Traversing the DOM
