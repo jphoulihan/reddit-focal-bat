@@ -29,7 +29,7 @@ focal-bat ensures a reliable translation by using the nlp library's tokenization
 
 ### **To Run This Project**
 
-This script was developed in Pyhton's virtual environment 
+This script was developed in a Python virtual environment 
 
 * pip install praw
 * pip install spacy
