@@ -1,37 +1,42 @@
 # FOCAL-BAT 
 
 ## Description 
-_focal-bat is a personalized word of the day comment bot_<br/><br/>
-_this comment bot responds to users and translates a word they used in their comment from English to Irish_
+_focal-bat is a 'word of the day' comment bot_<br/><br/>
 
 ## Project Goal
-_to promote Irish by giving the language more exposure on a forum for Ireland, comprised of 448k members_<br/><br/>
-
-### **Requirements**
----
-* use PRAW to create a reddit instance, get desired subreddit
-* get top post of the day
-* get top comment in that post
-* store comment
-* Use natural language processing to get POS (part of speech) on the comment content
-* insert first instance of Noun or Verb or Adjective etc. into teanglann foclóir (dictionary) search (get request)
-* if return contains a dictionary entry continue
-  * else repeat POS tagging to get next POS until the dictionary yields a result
-* Use web scraping to get the dictionary result content and example phrases
-  * if result content and search word are the same, move to next POS 
-* if the word's POS is VERB search in Irish to English dictionary to ensure the infinitive is returned
-  * if this fails return the English to Irish result
-* construct the focal bat response with this data
-  * response composed of:
-    * translation
-    * sample phrase
-    * link to dictionary result page
-* if the top post of the day already contains a focal-bat response it has been visited by the bot 
-  * do not comment<br/>
+_The idea spawned from an interest in forum board reply bots, natural language processing and a love for languages. The goal of this project is to promote the Irish language by giving it more exposure on a forum for Ireland, comprised of 448k members. With only 4% of the population using Irish on a daily basis it needs the exposure. By piggy backing on Reddits' poling system, I take the top comment of the top post of the day and directly reply to it with a personalized Irish word of the day. With this approach I maximize the number of users that will see my bot and therefore read a bit of Irish and potentially go a bit deeper and click the attached link_<br/><br/>
 
 ### **Tech Used**
 * Python
   * Packages
-    * PRAW
+    * praw
     * spacy
-    * BeautifulSoup4
+    * beautifulsoup4
+    * html5lib
+
+### **Features**
+focal-bat ensures a reliable translation by using the nlp library's tokenization and lammetization. It checks both English to Irish and Irish to English dictionary entries to ensure the best word is selected for a response. After scraping and formatting the results it constructs a reply. A related phrase and a link to the dictionary entry is also included in the reply. The reply is addressed to the user, for whom focal-bat translated the word. 
+
+### *Sample Console Output*
+
+![alt text](focal-console.png "samp console output")<br/><br>
+
+
+### *In App Response*
+
+![alt text](reddit-response-example.png "in app response")
+
+
+### **To Run This Project**
+
+This script was developed in Pyhton's virtual environment 
+
+* pip install praw
+* pip install spacy
+* pip install beautifulsoup4
+* pip install html5lib
+
+This project requires the developer to register a reddit app. After which they will receive and ID and token. These along with the redditors username and password are to be used in the creation of a Reddit instance, example below
+
+![alt text](reddit-instance.png "reddit instance")
+

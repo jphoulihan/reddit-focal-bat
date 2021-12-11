@@ -57,6 +57,9 @@ def main():
 
         word, formatted_translated_word, examples_scrape = dict_search(word_pos_dict, pos_list, check_verb) #makes sure the word gets valid dictionary result with examples, returns the word, html page copy and examples 
         
+
+        print(word, 'has been translated to ', formatted_translated_word, '\n')
+
         raw_example_list = [ex.text for ex in examples_scrape] 
         formatted_example_list = []
         for example_str in raw_example_list:
@@ -64,7 +67,9 @@ def main():
                 if ord(symbol) == 187: #phrases begin after right double angle quotes, filter by the ascii value for formatting
                     formatted_example_list.append(example_str[slice(example_str.index(symbol)+1, len(example_str))].strip()) #substring of raw example added to formatted list 
 
+        print('Up to 20 example phrases to choose from: \n')
         print(formatted_example_list)
+        print('\n')
 
         random_example_sentence = formatted_example_list[random.randrange(len(formatted_example_list))]
             
@@ -108,17 +113,13 @@ def dict_search(word_dict, pos_list, check_verb):
                 break
 
     if word_dict.get(word) == 'VERB': 
-        print(word)
         translated_word = check_verb(word, translated_word)
-        print(translated_word)
     
     return word, translated_word, examples_scrape
 
 
 #caveat in dictionary search result, for verbs the first person present conjunction is often returned and not the infinitive, this function should ensure infinitive is returned 
 def check_verb(verb, formatted_translated_word):
-
-    print(verb)
 
     page_irish_eng = requests.get(f'https://www.teanglann.ie/en/fgb/{verb}')
     check_soup = BeautifulSoup(page_irish_eng.content, 'html5lib')
@@ -132,11 +133,8 @@ def check_verb(verb, formatted_translated_word):
             if ord(symbol) == 187: #irish translated result comes before this symbol, use as end marker for substring
                 irish_eng_list.append(s[slice(0, s.index(symbol)-1)].strip()) #substring of raw example added to formatted list 
 
-    print(irish_eng_list)
-
     for verb_infinitive in irish_eng_list:
             if verb_infinitive.lower() in formatted_translated_word.lower(): #eliminates the conjugated suffix
-                print('HERES YOUR VERB',verb_infinitive)
                 return verb_infinitive
             
     return formatted_translated_word    
@@ -144,9 +142,5 @@ def check_verb(verb, formatted_translated_word):
 
 if __name__ == "__main__":
     main()
-
-
-
-
 
 
