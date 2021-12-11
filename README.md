@@ -32,6 +32,10 @@ focal-bat ensures a reliable translation by using the nlp library's tokenization
 This script was developed in a Python virtual environment 
 
 ```
+$ git clone https://github.com/jphoulihan/reddit-focal-bat.git
+```
+
+```
 $ python3 -m venv <insert-directory-name>
 ```
 ```
