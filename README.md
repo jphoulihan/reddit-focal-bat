@@ -4,7 +4,7 @@
 _focal-bat is a 'word of the day' comment bot_<br/><br/>
 
 ## **Project Goal**
-The idea spawned from an interest in forum board reply bots, natural language processing and a love for languages. The goal of this project is to promote the Irish language by giving it more exposure on a forum for Ireland, comprised of 448k members. With only 4% of the population using Irish on a daily basis it needs the exposure. By piggybacking on Reddits' voting system, I take the top comment of the top post of the day and directly reply to it with a personalized Irish word of the day. With this approach I maximize the number of users that will see my bot and therefore read a bit of Irish and potentially go a bit deeper and click the attached link<br/><br/><br/><br/>
+The idea spawned from an interest in forum board reply bots, natural language processing and a love for languages. The goal of this project is to promote the Irish language by giving it more exposure on a forum for Ireland, comprised of 448k members. With only 4% of the population using Irish on a daily basis it needs the exposure. By piggybacking on Reddits' voting system, I take the top comment of the top post of the day and directly reply to it with a personalized Irish word of the day. With this approach I maximize the number of users that will see my bot and therefore read a bit of Irish and potentially go a bit deeper and click the attached link.<br/><br/><br/><br/>
 
 ### **Tech Used**
 * Python
