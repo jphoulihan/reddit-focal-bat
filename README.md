@@ -72,7 +72,8 @@ On the reddit app the client_id can be found under personal use script
 * Traversing the DOM
 * Parse HTML 
 * Format text response 
-* Script automation<br/><br/>
+* Script automation
+<br/>
 
 ## Future Development
 
