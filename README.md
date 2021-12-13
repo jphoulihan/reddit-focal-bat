@@ -86,7 +86,7 @@ On the reddit app the client_id can be found under personal use script
 
 ### Use NLP to categorize responses
 * What type of words were most translated? 
-    * Verbs, Nouns, Adjectives etc.<br/><br/><br/><br/>
+    * Verbs, Nouns, Adjectives etc.<br/><br/>
 
 ## Created by
 
