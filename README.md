@@ -33,26 +33,26 @@ focal-bat ensures a reliable translation by using the nlp library's tokenization
 This script was developed in a Python virtual environment 
 
 ```
-$ git clone https://github.com/jphoulihan/reddit-focal-bat.git
+git clone https://github.com/jphoulihan/reddit-focal-bat.git
 ```
 
 ```
-$ python3 -m venv <insert-directory-name>
+python3 -m venv <insert-directory-name>
 ```
 ```
-$ <your-directory-name>/bin/activate
+<your-directory-name>/bin/activate
 ```
 ```
-$ pip install praw
+pip install praw
 ```
 ```
-$ pip install spacy
+pip install spacy
 ```
 ```
-$ pip install beautifulsoup4
+pip install beautifulsoup4
 ```
 ```
-$ pip install html5lib
+pip install html5lib
 ```
 <br/><br/>
 
@@ -86,7 +86,7 @@ On the reddit app the client_id can be found under personal use script
 
 ### Use NLP to categorize responses
 * What type of words were most translated? 
-    * Verbs, Nouns, Adjectives etc.<br/><br/><br/><br/>
+    * Verbs, Nouns, Adjectives etc.<br/><br/>
 
 ## Created by
 

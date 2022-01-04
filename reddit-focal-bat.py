@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 ID = os.getenv('CLIENT_ID')
 SECRET = os.getenv('CLIENT_SECRET')
-PASSWORD = os.getenv('PASSWORD')
+PASSWORD = os.getenv('CLIENT_PASSWORD')
 
 nlp = spacy.load('en_core_web_sm')
 
@@ -24,7 +24,7 @@ def main():
         password= PASSWORD
     )
 
-    subreddit = reddit.subreddit("botwatch").top("all", limit=1) #retrieves the top submission as limit is 1
+    subreddit = reddit.subreddit("ireland").top("all", limit=1) #retrieves the top submission as limit is 1
     submission_obj = [reddit.submission(id=f'{sub}') for sub in subreddit] # stores the top thread of the day submission object
     
     if  len(submission_obj) == 0:
