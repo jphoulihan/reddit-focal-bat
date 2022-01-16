@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os
 import sys
 import praw
@@ -24,7 +26,7 @@ def main():
         password= PASSWORD
     )
 
-    subreddit = reddit.subreddit("ireland").top("all", limit=1) #retrieves the top submission as limit is 1
+    subreddit = reddit.subreddit("ireland").top("day", limit=1) #retrieves the top submission as limit is 1
     submission_obj = [reddit.submission(id=f'{sub}') for sub in subreddit] # stores the top thread of the day submission object
     
     if  len(submission_obj) == 0:
@@ -84,7 +86,7 @@ def main():
 
         #reply to top comment
         focal_bat_reply = f'{reply}{lb}{example}{lb}Like to learn more? Go on, go on, go on... {search_further}'
-        # parent.reply(focal_bat_reply)
+        parent.reply(focal_bat_reply)
 
 
 #checks if word is in part of speech list and ensures word returns an accurate translation and example phrases from online dictionary
